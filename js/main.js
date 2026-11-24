@@ -466,8 +466,8 @@ function init() {
 			if (props.dialogy) textbox.style.top = props.dialogy.value + '%';
 			if (props.drawHitboxes) mouseOptions.drawHitboxes = props.drawHitboxes.value;
 			if (props.lensflare) {
-				showLensflare = props.lensflare.value;
-				if (showLensflare) restoreSpecifiedSlots();
+				glareEnabled = props.lensflare.value;
+				if (spineData) applyGlareOpacity(spineData.skeleton.data);
 			}
 
 			// 监听模型分辨率设置
@@ -570,7 +570,6 @@ function reloadModel() {
 		bgm = null;
 	}
 	
-	slotsHidden = false;
 
 	// Stop all intro audio and clear related timeouts
 	introAudioIsPlaying = false;
@@ -681,8 +680,6 @@ function interactionLoad() {
 function load(dynamicBinaryPath, dynamicAtlasPath) {
 	spineData = loadSpineData(dynamicBinaryPath, dynamicAtlasPath, false);
 
-	// 在设置动画之前隐藏指定的骨骼
-	hideSpecifiedSlots();
 
 	// User Option to skip Intro Animation
 	if (introAnimation) {
@@ -720,6 +717,39 @@ function load(dynamicBinaryPath, dynamicAtlasPath) {
 	canvas.style.visibility = 'visible';
 }
 
+const GLARE_SLOTS = new Set([
+	"BG_Waterline", "BG_Waterline2", "water_light_18", "water_light_19",
+	"water_light_20", "water_light_18_1", "water_light_18_2", "water_light_18_3",
+	"building_bloom", "lamp_bloom_b", "lamp_bloom_a", "water_bloom_01",
+	"water_bloom_02", "water_bloom_03", "water_bloom_04", "FX_bloom_01",
+	"FX_bloom_010", "FX_bloom_02", "FX_bloom_011", "FX_bloom_03",
+	"FX_bloom_012", "FX_bloom_04", "FX_bloom_019", "FX_bloom_013",
+	"FX_bloom_05", "FX_bloom_014", "FX_bloom_06", "FX_bloom_015",
+	"FX_bloom_07", "FX_bloom_016", "FX_bloom_08", "FX_bloom_017",
+	"FX_bloom_09", "FX_bloom_018", "FX_bloom_10", "FX_bloom_22",
+	"FX_bloom_11", "FX_bloom_12", "FX_bloom_24", "FX_bloom_13",
+	"FX_bloom_25", "FX_bloom_14", "FX_bloom_26", "FX_bloom_15",
+	"FX_bloom_27", "FX_bloom_16", "FX_bloom_34", "FX_bloom_28",
+	"FX_bloom_17", "FX_bloom_29", "FX_bloom_18", "FX_bloom_30",
+	"FX_bloom_19", "FX_bloom_31", "FX_bloom_20", "FX_bloom_23",
+	"FX_bloom_32", "FX_bloom_21", "FX_bloom_33"
+]);
+const GLARE_OPACITY = 0.4;
+let glareEnabled = true;
+const originalGlareOpacity = new WeakMap();
+
+// Scale attachment opacity once so animated slot colors still control the light.
+function applyGlareOpacity(skeletonData) {
+	for (const skin of skeletonData.skins) {
+		for (const { slotIndex, attachment } of skin.getAttachments()) {
+			const slot = skeletonData.slots[slotIndex];
+			if (!GLARE_SLOTS.has(slot.name) || slot.blendMode !== 1 || !attachment.color) continue;
+			if (!originalGlareOpacity.has(attachment)) originalGlareOpacity.set(attachment, attachment.color.a);
+			attachment.color.a = originalGlareOpacity.get(attachment) * (glareEnabled ? GLARE_OPACITY : 0);
+		}
+	}
+}
+
 function loadSpineData(binaryPath, atlasPath, premultipliedAlpha) {
 	// Load the texture atlas from the AssetManager.
 	let atlas = assetManager.get(atlasPath);
@@ -733,6 +763,7 @@ function loadSpineData(binaryPath, atlasPath, premultipliedAlpha) {
 	// Set the scale to apply during parsing, parse the file, and create a new skeleton.
 	skeletonBinary.scale = 1;
 	let skeletonData = skeletonBinary.readSkeletonData(assetManager.get(binaryPath));
+	applyGlareOpacity(skeletonData);
 	let skeleton = new spine.Skeleton(skeletonData);
 	let bounds = calculateSetupPoseBounds(skeleton);
 
@@ -754,41 +785,6 @@ function calculateSetupPoseBounds(skeleton) {
 	return { offset: offset, size: size };
 }
 
-let showLensflare = false;
-let slotsHidden = false;
-
-function hideSpecifiedSlots() {
-	if (!showLensflare && spineData && spineData.skeleton) {
-		let foundSlots = 0;
-		
-		// 遍历并隐藏所有名称包含"FX"的骨骼（每次渲染都执行）
-		for (let i = 0; i < spineData.skeleton.slots.length; i++) {
-			let slot = spineData.skeleton.slots[i];
-			if (slot.data.name.includes("FX")) {
-				slot.setAttachment(null);
-				foundSlots++;
-			}
-		}
-		
-		// 只在首次执行时显示调试信息
-		// if (!slotsHidden) {
-		// 	console.log("成功隐藏 " + foundSlots + " 个包含FX的骨骼");
-		// 	slotsHidden = true;
-		// }
-	}
-}
-
-function restoreSpecifiedSlots() {
-	if (spineData && spineData.skeleton) {
-		slotsToHide.forEach(slotName => {
-			let slot = spineData.skeleton.findSlot(slotName);
-			if (slot && slot.data.attachmentName) {
-				slot.setAttachment(spineData.skeleton.getAttachment(slot.data.index, slot.data.attachmentName));
-			}
-		});
-	}
-}
-
 function render() {
     let now = Date.now() / 1000;
     let delta = now - lastFrameTime;
@@ -807,8 +803,6 @@ function render() {
         state.update(delta);
 		state.apply(skeleton);
 		
-		// 在渲染时检查并隐藏指定的骨骼
-		hideSpecifiedSlots();
 
         const pointX = TPoint.x;
         const pointY = TPoint.y;
