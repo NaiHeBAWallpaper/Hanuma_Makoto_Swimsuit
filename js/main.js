@@ -49,7 +49,8 @@ const subtitleLocales = {
 	Chinese: 'zh-Hans',
 	TraditionalChinese: 'zh-Hant',
 	Japanese: 'ja',
-	Korean: 'ko'
+	Korean: 'ko',
+	Thai: 'th'
 };
 let isVoicelinePlaying = false;
 
@@ -67,21 +68,22 @@ const AUDIO_DETAIL = [
                 "だからこそ、自身の欲望や感情と向き合えていなかったのだろう。"
             ],
             English: [
-                "I... have always stood as the representative of Pandemonium Society and Gehenna.",
-                "Perhaps that is precisely why I have failed to face my own desires and emotions."
+                "I always represent the public interests of Gehenna and the Pandemonium Society.",
+                "Given that position, I have been clumsy in dealing with my own desires or emotions at times."
             ],
             Chinese: [
                 "我……一直以来，都是作为万魔殿与格黑娜的代表站在这里。",
                 "正因如此，我大概从未好好面对过属于我自己的欲望与情感吧。"
             ],
             TraditionalChinese: [
-                "我……一直以來，都是作為萬魔殿與格黑娜的代表站在這裡。",
-                "正因如此，我大概從未好好面對過屬於我自己的慾望與情感吧。"
+                "我──一直以來，都扮演著萬魔殿與格黑娜代表的身分。",
+                "或許正是因為這樣，我才始終沒有面對自己的慾望與感情吧。"
             ],
             Korean: [
-                "저는 항상 팬데모니움 사회와 지옥의 대표자였습니다.",
-                "어쩌면 그것이 바로 내가 내 자신의 욕구와 감정에 직면하지 못한 이유일지도 모른다."
-            ]
+                "나는 언제나 만마전과 게헨나의 공익을 대표하고 있지.",
+                "그런 입장인 만큼, 나 자신의 욕심이나 감정을 둘러보는 것에 서툴렀는지 모른다."
+            ],
+            Thai: ["เราน่ะเป็นตัวแทนผลประโยชน์ ส่วนรวมของแพนเดโมเนียม โซไซตี้ และเกเฮนน่าอยู่เสมอ","เมื่ออยู่ในจุดนั้น เราอาจไม่ถนัด เรื่องการมองย้อนดูความต้องการ หรือความรู้สึกของตัวเอง"]
         }
     },
     {
@@ -91,21 +93,22 @@ const AUDIO_DETAIL = [
                 "認めよう。先生は私にとって……少し特別な存在になったのかもしれない。"
             ],
             English: [
-                "However, Sensei of Schale. This proposal is not as the President of Pandemonium Society, but a personal one.",
-                "I shall admit it. Perhaps you have become... a somewhat special existence to me."
+                "However, Schale's Sensei. This proposal is not coming from the Chair of the Pandemonium Society. It is something more personal.",
+                "I will admit it. For me, Sensei...may have become a bit of a special person."
             ],
             Chinese: [
                 "但是，夏莱的老师啊。这份提议，并非出自万魔殿议长之口，而是我个人的决定。",
                 "我承认。老师对于我而言……或许已经成为了一个有些特殊的存在。"
             ],
             TraditionalChinese: [
-                "但是，夏萊的老師啊。這份提議，並非出自萬魔殿議長之口，而是我個人的決定。",
-                "我承認。老師對於我而言……或許已經成為了一個有些特殊的存在。"
+                "但是，夏萊的老師啊。這個提案並非以萬魔殿議長，而是以我個人的身份提出的。",
+                "我承認。老師對我而言……或許已經成為有點特別的存在。"
             ],
             Korean: [
-                "하지만, 샤일의 상사님, 이 제안은 팬데모니엄 소사이어티의 회장으로서의 것이 아니라 개인적인 제안입니다.",
-                "인정할게요. 어쩌면 당신은 저에게 특별한 존재가 되었겠죠."
-            ]
+                "그러나, 샬레의 선생이여. 이 제안은 만마전 의장으로서가 아닌, 좀 더 사적인 것이다.",
+                "인정하지. 선생은 나에게 있어…… 조금 특별한 존재가 되었는지 모른다."
+            ],
+            Thai: ["ทว่า ครูจากชาเล่ต์ ข้อเสนอนี้ไม่ใช่ ในฐานะประธานแพนเดโมเนียม โซไซตี้ แต่เป็นเรื่องส่วนตัวมากกว่า","เรายอมรับนะ ครูอาจกลายเป็น ตัวตนที่... พิเศษ ขึ้นมานิดหน่อยสำหรับเราแล้วก็ได้"]
         }
     },
     {
@@ -114,17 +117,18 @@ const AUDIO_DETAIL = [
                 "例え代償を支払ったとしても――必ず獲得しなければならない対象となっている。"
             ],
             English: [
-                "Even if I must pay a price for it—you have become a target I must acquire no matter what."
+                "Someone who I must win over, no matter the cost."
             ],
             Chinese: [
                 "即便需要付出代价——你也已经成为了我势在必得的目标。"
             ],
             TraditionalChinese: [
-                "即便需要付出代價——你也已經成為了我勢在必得的目標。"
+                "成為了即使得付出代價──也必須獲得的對象。"
             ],
             Korean: [
-                "내가 그 대가를 치러야 할지라도 네가 목표가 되어버렸어"
-            ]
+                "몇몇 가치를 포기해서라도, 반드시 쟁취해 내야만 하는 대상이 되고 말았다는 것을."
+            ],
+            Thai: ["จนกลายเป็นคนที่ต่อให้ต้อง ละทิ้งคุณค่าบางอย่าง ก็ต้องไขว่คว้า มาให้ได้อย่างแน่นอน"]
         }
     },
     {
@@ -134,21 +138,22 @@ const AUDIO_DETAIL = [
                 "……この感情をどう表現すべきなのかは、分からない。"
             ],
             English: [
-                "No, secured...? Captured...?",
-                "...I do not know how I should express this emotion."
+                "Hm, win over...? Conquer...?",
+                "...I'm not sure how to put this feeling into words."
             ],
             Chinese: [
                 "不，是‘确保’……？还是‘捕获’……？",
                 "……我并不清楚究竟该如何表达这份情感。"
             ],
             TraditionalChinese: [
-                "不，是‘確保’……？還是‘捕獲’……？",
-                "……我並不清楚究竟該如何表達這份情感。"
+                "不，是確保……？還是捕獲……？",
+                "……這份感情該如何表達，我並不清楚。"
             ],
             Korean: [
-                "아니, 안보를 받았어?",
-                "이 감정을 어떻게 표현해야 할지 모르겠어요."
-            ]
+                "아니, 쟁탈……? 제패……?",
+                "……이런 마음을 뭐라 표현해야 할지 모르겠군."
+            ],
+            Thai: ["ไม่สิ ต้องเรียกว่า แย่งชิง...? พิชิต...?","ไม่รู้เลยว่า... ควรเรียกความรู้สึกนี้ว่าอะไร"]
         }
     },
     {
@@ -158,21 +163,22 @@ const AUDIO_DETAIL = [
                 "――私のモノになってくれ。"
             ],
             English: [
-                "Yes. If I were forced to put it into words—",
-                "—Become mine."
+                "Right... If I had to put it in words...",
+                "I want you."
             ],
             Chinese: [
                 "是啊。硬要说的话——",
                 "——请成为我的人吧。"
             ],
             TraditionalChinese: [
-                "是啊。硬要說的話——",
-                "——請成為我的人吧。"
+                "對了。硬要說的話──",
+                "──成為我的人吧。"
             ],
             Korean: [
-                "그래, 만약 내가 말로 표현해야 한다면",
-                "—내 것이 되어 줘."
-            ]
+                "그렇군. 굳이 말하자면.",
+                "당신을 갖고 싶다."
+            ],
+            Thai: ["อย่างนี้สินะ ถ้าจะให้พูดก็ต้องบอกว่า","เราอยากได้คุณมาครอบครอง"]
         }
     }
 ];
@@ -297,7 +303,7 @@ function playVoiceline() {
 			track.play().catch(finish);
 
 			if (dialogBox) {
-				textbox.textContent = dialog[window.selectedLanguage][index];
+				textbox.textContent = getSubtitleText(dialog, window.selectedLanguage, index);
 				textbox.style.opacity = 1;
 			}
 		},
@@ -472,6 +478,16 @@ function setMouse(event) {
 	return { x: ax - canvas.width * positionX, y: ay - canvas.height * positionY };
 }
 
+function getSubtitleText(dialog, language, index) {
+	let text = dialog?.[language]?.[index];
+	if (text == null && language === 'Thai') {
+		language = 'English';
+		text = dialog?.[language]?.[index];
+	}
+	textbox.lang = subtitleLocales[language];
+	return text ?? "";
+}
+
 function updateSubtitleLanguage() {
 	let language = subtitleLanguagePreference;
 	if (language === 'auto') {
@@ -485,6 +501,8 @@ function updateSubtitleLanguage() {
 			language = 'Japanese';
 		} else if (primary === 'ko' || primary === 'korean' || primary === 'koreana') {
 			language = 'Korean';
+		} else if (primary === 'th' || primary === 'thai') {
+			language = 'Thai';
 		} else {
 			language = 'English';
 		}
@@ -494,7 +512,7 @@ function updateSubtitleLanguage() {
 	window.selectedLanguage = language;
 	textbox.lang = subtitleLocales[language];
 	const clip = currentTracks.at(-1);
-	if (dialogBox && clip) textbox.textContent = clip.dialog[language][clip.index];
+	if (dialogBox && clip) textbox.textContent = getSubtitleText(clip.dialog, language, clip.index);
 }
 
 function init() {
